@@ -38,15 +38,60 @@ git clone <repository-url>
 cd fastapi-crud-app
 ```
 
-2. Install dependencies:
+2. Set up a virtual environment and install dependencies:
+
+### Option 1: Using the Python setup script (Cross-platform, Recommended)
+
 ```bash
-pip install fastapi uvicorn gunicorn pydantic pydantic-settings python-jose passlib[bcrypt] sqlalchemy psycopg2-binary python-multipart email-validator
+# Run the Python setup script
+python setup_venv.py
 ```
 
-3. Set up the database:
+### Option 2: Using the shell scripts
+
+#### For Linux/macOS:
 ```bash
-python -c "from app.database import Base, engine; from app.models import User, Item; Base.metadata.create_all(bind=engine)"
+# Make the script executable
+chmod +x setup.sh
+# Run the setup script
+./setup.sh
 ```
+
+#### For Windows:
+```bash
+# Run the setup script
+setup.bat
+```
+
+### Option 3: Manual setup
+
+```bash
+# Create a virtual environment
+python -m venv .venv
+
+# Activate the virtual environment
+# On Linux/macOS
+source .venv/bin/activate
+# On Windows
+.venv\Scripts\activate
+
+# Install dependencies
+pip install -e .
+```
+
+3. Set up the environment variables:
+Create a `.env` file in the root directory with the following content (update with your values):
+```
+DATABASE_URL=postgresql://user:password@localhost:5432/dbname
+PGHOST=localhost
+PGPORT=5432
+PGUSER=postgres
+PGPASSWORD=yourpassword
+PGDATABASE=app
+SECRET_KEY=yoursecretkey
+```
+
+4. The database tables will be created automatically when you start the application.
 
 ## Running the Application
 
@@ -128,5 +173,8 @@ When running with Uvicorn, the API documentation is available at:
 │   └── schemas.py
 ├── main.py            # WSGI entry point for Gunicorn
 ├── run_uvicorn.py     # Script to run with Uvicorn for full functionality
+├── setup.py           # Python package setup for easy dependency installation
+├── setup.sh           # Setup script for Linux/macOS
+├── setup.bat          # Setup script for Windows
 └── README.md
 ```
