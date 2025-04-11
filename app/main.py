@@ -4,7 +4,9 @@ from fastapi.openapi.docs import get_swagger_ui_html
 
 from app.api.api import api_router
 from app.config import settings
+from app.database import init_db
 
+# Create FastAPI application
 app = FastAPI(
     title=settings.PROJECT_NAME,
     description="FastAPI CRUD application with authentication and PostgreSQL",
@@ -22,6 +24,9 @@ if settings.BACKEND_CORS_ORIGINS:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+
+# Initialize the database tables
+init_db()
 
 # Include all API routes
 app.include_router(api_router, prefix=settings.API_V1_STR)
